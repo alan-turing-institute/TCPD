@@ -1,0 +1,141 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://example.com/root.json",
+	"type": "object",
+	"title": "Dataset Schema",
+	"default": null,
+	"required": [
+		"name",
+		"n_obs",
+		"n_dim",
+		"time",
+		"series"
+	],
+	"properties": {
+		"name": {
+			"$id": "#/properties/name",
+			"type": "string",
+			"title": "The Name Schema",
+			"default": "",
+			"pattern": "^[a-z0-9\\_]+$"
+		},
+		"longname": {
+			"$id": "#/properties/longname",
+			"type": "string",
+			"title": "The Longname Schema",
+			"default": "",
+			"pattern": "^(.+)$"
+		},
+		"n_obs": {
+			"$id": "#/properties/n_obs",
+			"type": "integer",
+			"title": "The N_obs Schema",
+			"default": 0
+		},
+		"n_dim": {
+			"$id": "#/properties/n_dim",
+			"type": "integer",
+			"title": "The N_dim Schema",
+			"default": 0
+		},
+		"demo": {
+			"$id": "#/properties/demo",
+			"type": "object",
+			"title": "The Demo Schema",
+			"properties": {
+				"true_CPs": {
+					"$id": "#/properties/demo/properties/true_CPs",
+					"type": "array",
+					"items": {
+						"$id": "#/properties/demo/properties/true_CPs/items",
+						"type": "integer",
+						"title": "The Items Schema",
+						"default": null
+					}
+				}
+			}
+		},
+		"time": {
+			"$id": "#/properties/time",
+			"type": "object",
+			"title": "The Time Schema",
+			"default": null,
+			"required": [
+				"index"
+			],
+			"properties": {
+				"format": {
+					"$id": "#/properties/time/properties/format",
+					"type": "string",
+					"title": "The Format Schema",
+					"default": "",
+					"pattern": "^(.*)$"
+				},
+				"index": {
+					"$id": "#/properties/time/properties/index",
+					"type": "array",
+					"title": "Integer index of the series, starting from 0.",
+					"items": {
+						"$id": "#/properties/time/properties/index/items",
+						"type": "integer",
+						"title": "The index items schema",
+						"default": null
+					}
+				},
+				"raw": {
+					"$id": "#/properties/time/properties/raw",
+					"type": "array",
+					"title": "The Raw Schema",
+					"items": {
+						"$id": "#/properties/time/properties/raw/items",
+						"type": "string",
+						"title": "The Items Schema",
+						"default": ""
+					}
+				}
+			}
+		},
+		"series": {
+			"$id": "#/properties/series",
+			"type": "array",
+			"title": "The Series Schema",
+			"items": {
+				"$id": "#/properties/series/items",
+				"type": "object",
+				"title": "The Variable Schema",
+				"default": null,
+				"properties": {
+					"label": {
+						"$id": "#/properties/series/items/properties/label",
+						"type": "string",
+						"title": "The Label Schema",
+						"default": "",
+						"pattern": "^(.+)$"
+					},
+					"type": {
+						"$id": "#/properties/series/items/properties/type",
+						"type": "string",
+						"title": "The Type Schema",
+						"default": "",
+						"pattern": "^(.+)$"
+					},
+					"raw": {
+						"$id": "#/properties/series/items/properties/raw",
+						"type": "array",
+						"title": "The Raw Schema",
+						"items": {
+							"$id": "#/properties/series/items/properties/raw/items",
+							"title": "The Items Schema",
+							"default": 0
+						}
+					}
+				},
+				"required": [
+					"type",
+					"raw"
+				]
+			}
+		}
+	}
+}

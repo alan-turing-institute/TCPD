@@ -1,0 +1,11 @@
+language: python
+python:
+  - "3.6"
+
+before_install:
+  - apt-get update
+  - apt-get install build-essential # for make
+
+script:
+  - make clean
+  - make test
