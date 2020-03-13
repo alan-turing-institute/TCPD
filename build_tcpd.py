@@ -22,6 +22,7 @@ TARGETS = [
     ("bitcoin", "get_bitcoin.py"),
     ("global_co2", "get_global_co2.py"),
     ("iceland_tourism", "get_iceland_tourism.py"),
+    ("measles", "get_measles.py"),
     ("occupancy", "get_occupancy.py"),
     ("ratner_stock", "get_ratner_stock.py"),
     ("robocalls", "get_robocalls.py"),

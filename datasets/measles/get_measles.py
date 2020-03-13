@@ -21,7 +21,7 @@ import os
 from functools import wraps
 from urllib.request import urlretrieve
 
-DAT_URL = "https://web.archive.org/web/20191128124615/https://ms.mcmaster.ca/~bolker/measdata/ewmeas.dat"
+DAT_URL = "https://web.archive.org/web/20191128124615if_/https://ms.mcmaster.ca/~bolker/measdata/ewmeas.dat"
 
 MD5_DAT = "143d1dacd791df963674468c8b005bf9"
 MD5_JSON = "e42afd03be893fc7deb98514c94fa4c7"
@@ -75,7 +75,7 @@ def download_zip(target_path=None):
 
 @validate(MD5_JSON)
 def write_json(dat_path, target_path=None):
-    with open("ewmeas.dat", "r", newline="", encoding="ascii") as fp:
+    with open(dat_path, "r", newline="", encoding="ascii") as fp:
         reader = clevercsv.reader(
             fp, delimiter=" ", quotechar="", escapechar=""
         )
