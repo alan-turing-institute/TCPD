@@ -31,12 +31,12 @@ collect: venv
 test: verify validate
 
 verify: venv collect $(UTIL_DIR)/check_checksums.py ./checksums.json
-	echo "Verifying datasets ..."
+	@echo "Verifying datasets ..."
 	source $(VENV_DIR)/bin/activate && \
 		python $(UTIL_DIR)/check_checksums.py -v -c ./checksums.json -d $(DATA_DIR)
 
 validate: venv collect $(UTIL_DIR)/validate_dataset.py ./schema.json
-	echo "Validating datasets"
+	@echo "Validating datasets"
 	source $(VENV_DIR)/bin/activate && \
 		python $(UTIL_DIR)/validate_dataset.py -v -s ./schema.json -d $(DATA_DIR)
 
