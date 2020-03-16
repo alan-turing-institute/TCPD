@@ -4,7 +4,8 @@ python:
 
 before_install:
   - apt-get update
-  - apt-get install build-essential # for make
+    # install make
+  - apt-get install build-essential
 
 script:
   - make clean
