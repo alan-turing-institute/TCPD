@@ -2,17 +2,46 @@
 
 Welcome to the host repository of the Turing Change Point Dataset, a set of 
 time series specifically collected for the evaluation of change point 
-detection algorithms on real-world data. For the repository containing the 
+detection algorithms on real-world data. This dataset was introduced in [this 
+paper](https://arxiv.org/abs/2003.06222). For the repository containing the 
 code and annotations, see 
 [TCPDBench](https://github.com/alan-turing-institute/TCPDBench).
 
 **Useful links:**
+
 - [Turing Change Point Dataset](https://github.com/alan-turing-institute/TCPD) 
   on GitHub.
-- [Turing Change Point Benchmark](https://github.com/alan-turing-institute/TCPDBench)
-- [An Evaluation of Change Point Detection Algorithms](URL_TO_PAPER), a paper 
-  by [Gertjan van den Burg](https://gertjan.dev) and [Chris 
+- [Turing Change Point Detection 
+  Benchmark](https://github.com/alan-turing-institute/TCPDBench)
+- [An Evaluation of Change Point Detection Algorithms](https://arxiv.org/abs/2003.06222) by 
+  [Gertjan van den Burg](https://gertjan.dev) and [Chris 
   Williams](https://homepages.inf.ed.ac.uk/ckiw/).
+
+## Introduction
+
+Change point detection focuses on accurately detecting moments of abrupt 
+change in the behavior of a time series. While many methods for change point 
+detection exists, past research has paid little attention to the evaluation of 
+existing algorithms on real-world data. This work introduces a benchmark study 
+and a dataset ([TCPD](https://github.com/alan-turing-institute/TCPD)) that are 
+explicitly designed for the evaluation of change point detection algorithms. 
+We hope that our work becomes a proving ground for the evaluation and 
+development of change point detection algorithms that work well in practice.
+
+This repository contains the code needed to obtain the time series in the 
+dataset. For the benchmark study, see 
+[TCPDBench](https://github.com/alan-turing-institute/TCPDBench). Note that 
+work based on the dataset should cite [our 
+paper](https://arxiv.org/abs/2003.06222):
+
+```bib
+@article{vandenburg2020evaluation,
+        title={An Evaluation of Change Point Detection Algorithms},
+        author={{Van den Burg}, G. J. J. and Williams, C. K. I.},
+        journal={arXiv preprint arXiv:2003.06222},
+        year={2020}
+}
+```
 
 ## Getting Started
 
@@ -21,16 +50,6 @@ However, due to licensing restrictions, some series can not be redistributed
 and need to be downloaded locally. We've added a Python script and a Makefile 
 to make this process as easy as possible.
 
-Note that work based on the dataset should cite [our paper](URL_TO_PAPER):
-
-```bib
-@article{vandenburg2020evaluation,
-        title={An Evaluation of Change Point Detection Algorithms},
-        author={{Van den Burg}, G. J. J. and Williams, C. K. I.},
-        journal={arXiv preprint},
-        year={2020}
-}
-```
 
 To obtain the dataset, please run the following steps:
 
@@ -104,7 +123,8 @@ datasets are available in
 The code in this repository is licensed under the MIT license. See the 
 [LICENSE file](LICENSE) for more details. Individual data files are often 
 distributed under different terms, see the relevant README files for more 
-details. Work that uses this dataset should cite [our paper](URL_TO_PAPER).
+details. Work that uses this dataset should cite [our 
+paper](https://arxiv.org/abs/2003.06222).
 
 ## Notes
 
