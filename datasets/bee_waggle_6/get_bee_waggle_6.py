@@ -36,7 +36,9 @@ class ValidationError(Exception):
         message = (
             "Validating the file '%s' failed. \n"
             "Please raise an issue on the GitHub page for this project "
-            "if the error persists." % filename
+            "if the error persists.\nContent follows:\n\n%s" % (filename, 
+                open(filename, 'r').read())
+
         )
         super().__init__(message)
 
