@@ -3,9 +3,8 @@ python:
   - "3.6"
 
 before_install:
-  - apt-get update
-    # install make
-  - apt-get install build-essential
+  - sudo apt-get update
+  - sudo apt-get install build-essential # for make
 
 script:
   - make clean
