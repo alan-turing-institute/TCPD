@@ -9,6 +9,9 @@ before_install:
   # install virtualenv
   - pip install -U virtualenv
 
+install:
+  # disable the default travis install action
+  - true
 
 script:
   - make clean
