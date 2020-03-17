@@ -1,5 +1,7 @@
 # Turing Change Point Dataset
 
+[![Build Status](https://travis-ci.org/alan-turing-institute/TCPD.svg?branch=master)](https://travis-ci.org/alan-turing-institute/TCPD)
+
 Welcome to the host repository of the Turing Change Point Dataset, a set of 
 time series specifically collected for the evaluation of change point 
 detection algorithms on real-world data. This dataset was introduced in [this 
