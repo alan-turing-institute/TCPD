@@ -20,7 +20,6 @@ TARGETS = [
     ("apple", "get_apple.py"),
     ("bee_waggle_6", "get_bee_waggle_6.py"),
     ("bitcoin", "get_bitcoin.py"),
-    ("global_co2", "get_global_co2.py"),
     ("iceland_tourism", "get_iceland_tourism.py"),
     ("measles", "get_measles.py"),
     ("occupancy", "get_occupancy.py"),

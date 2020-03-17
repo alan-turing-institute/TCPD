@@ -17,10 +17,13 @@ When using this data, please cite:
 }
 ```
 
-While it appears that the data is in the public domain, it is not clear what 
-license it is under. We therefore download it from the original source (hosted 
-at ETH Zurich) and convert it to our dataset format. The original data is 
-sampled every 4 years and cropped to recent history to reduce the length of 
-the series.
+It seems that the work of Meinshausen et al. is licensed under [CC BY 
+3.0](https://creativecommons.org/licenses/by/3.0/), judging from [the 
+publication](https://www.geosci-model-dev.net/10/2057/2017/). This allows us 
+to redistribute this time series as part of the dataset, provided that the 
+above source is cited. We thus include the source csv in the repository.
+
+Note that the original data is sampled every 4 years and cropped to recent 
+history to reduce the length of the series.
 
 ![Plot of global_co2 dataset](./global_co2.png)
