@@ -3,7 +3,10 @@
 	"checksums": {
 		"apple.json": "22edb48471bd3711f7a6e15de6413643",
 		"bank.json": "5207135ea53fc6fa2a8119908da73abf",
-		"bee_waggle_6.json": "4f03feafecb3be0b069b3cb0d6b17d4f",
+		"bee_waggle_6.json": [
+			"4f03feafecb3be0b069b3cb0d6b17d4f",
+			"71311783488ee5f1122545d24c15429b"
+		],
 		"bitcoin.json": "f90ff14ed1fc0c3d47d4394d25cbce93",
 		"brent_spot.json": "79892116ef8a0aa16e2450123655b31d",
 		"businv.json": "d2ab178da17b2e659a10a102a4b9f332",

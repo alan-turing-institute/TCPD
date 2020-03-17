@@ -26,6 +26,8 @@ ZIP_URL = "https://web.archive.org/web/20191114130815if_/https://www.cc.gatech.e
 
 MD5_ZIP = "039843dc15c72fd5450eeb11c6e5599c"
 MD5_JSON = "4f03feafecb3be0b069b3cb0d6b17d4f"
+# alternative checksum for small rounding errors
+MD5_JSON_2 = "71311783488ee5f1122545d24c15429b"
 
 NAME_ZIP = "psslds.zip"
 NAME_JSON = "bee_waggle_6.json"
@@ -48,7 +50,7 @@ def check_md5sum(filename, checksum):
     return h == checksum
 
 
-def validate(checksum):
+def validate(checksum, alternative_checksum=None):
     """Decorator that validates the target file."""
 
     def validate_decorator(func):
@@ -57,10 +59,19 @@ def validate(checksum):
             target = kwargs.get("target_path", None)
             if os.path.exists(target) and check_md5sum(target, checksum):
                 return
+            if (
+                os.path.exists(target)
+                and alternative_checksum
+                and check_md5sum(target, alternative_checksum)
+            ):
+                return
             out = func(*args, **kwargs)
             if not os.path.exists(target):
                 raise FileNotFoundError("Target file expected at: %s" % target)
-            if not check_md5sum(target, checksum):
+            if not (check_md5sum(target, checksum) or (
+                alternative_checksum
+                and check_md5sum(target, alternative_checksum)
+            )):
                 raise ValidationError(target)
             return out
 
@@ -74,7 +85,7 @@ def download_zip(target_path=None):
     urlretrieve(ZIP_URL, target_path)
 
 
-@validate(MD5_JSON)
+@validate(MD5_JSON, MD5_JSON_2)
 def write_json(zip_path, target_path=None):
     with zipfile.ZipFile(zip_path) as thezip:
         with thezip.open("psslds/zips/data/sequence6/btf/ximage.btf") as fp:
@@ -138,7 +149,7 @@ def parse_args():
         choices=["collect", "clean"],
         help="Action to perform",
         default="collect",
-        nargs='?'
+        nargs="?",
     )
     return parser.parse_args()
 

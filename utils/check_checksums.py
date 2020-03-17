@@ -73,8 +73,14 @@ def main():
         if not fname in data_files:
             raise FileNotFoundError("Missing data file: %s" % fname)
         md5 = md5sum(data_files[fname])
-        if not md5 == checksums[fname]:
-            raise ValueError(
+        if isinstance(checksums[fname], list):
+            if not md5 in checksums[fname]:
+                raise ValueError(
+                    "Checksums don't match for file: %s" % (data_files[fname])
+                    )
+        else:
+            if not md5 == checksums[fname]:
+                raise ValueError(
                 "Checksums don't match for file: %s" % (data_files[fname])
             )
 
