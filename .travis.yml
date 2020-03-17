@@ -4,8 +4,11 @@ python:
 
 before_install:
   - apt-get update
-    # install make
+  # install make
   - apt-get install build-essential
+  # install virtualenv
+  - pip install -U virtualenv
+
 
 script:
   - make clean
