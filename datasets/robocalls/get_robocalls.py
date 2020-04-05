@@ -19,10 +19,18 @@ import hashlib
 import json
 import os
 import requests
+import sys
+import time
 
 from functools import wraps
 
 URL = "https://web.archive.org/web/20191027130452/https://robocallindex.com/history/time"
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 "
+    "Safari/537.36"
+}
 
 MD5_JSON = "f67ec0ccb50f2a835912e5c51932c083"
 
@@ -86,9 +94,28 @@ def validate(checksum):
 # We can't validate the HTML as the wayback machine inserts the retrieval time
 # in the HTML, so the checksum is not constant.
 def write_html(target_path=None):
-    req = requests.get(URL)
+    count = 0
+    jar = {}
+    tries = 10
+    while count < tries:
+        count += 1
+        error = False
+        try:
+            res = requests.get(URL, headers=HEADERS, cookies=jar)
+        except requests.exceptions.ConnectionError:
+            error = True
+        if error or not res.ok:
+            print(
+                "(%i/%i) Error getting URL %s. Retrying in 5 seconds."
+                % (count, tries, URL),
+                file=sys.stderr,
+            )
+            time.sleep(5)
+            continue
+    if error:
+        raise ValueError("Couldn't retrieve URL %s" % URL)
     with open(target_path, "wb") as fp:
-        fp.write(req.content)
+        fp.write(res.content)
 
 
 @validate(MD5_JSON)
