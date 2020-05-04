@@ -18,6 +18,7 @@ import json
 import math
 import os
 import zipfile
+import sys
 
 from functools import wraps
 from urllib.request import urlretrieve
@@ -26,8 +27,11 @@ ZIP_URL = "https://web.archive.org/web/20191114130815if_/https://www.cc.gatech.e
 
 MD5_ZIP = "039843dc15c72fd5450eeb11c6e5599c"
 MD5_JSON = "4f03feafecb3be0b069b3cb0d6b17d4f"
-# alternative checksum for small rounding errors
-MD5_JSON_2 = "71311783488ee5f1122545d24c15429b"
+# known alternative checksums for small rounding errors
+MD5_JSON_X = [
+    "71311783488ee5f1122545d24c15429b",
+    "3632e004b540de5c3eb049fb5591d044",
+]
 
 NAME_ZIP = "psslds.zip"
 NAME_JSON = "bee_waggle_6.json"
@@ -50,7 +54,7 @@ def check_md5sum(filename, checksum):
     return h == checksum
 
 
-def validate(checksum, alternative_checksum=None):
+def validate(checksum, alt_checksums=None):
     """Decorator that validates the target file."""
 
     def validate_decorator(func):
@@ -61,18 +65,37 @@ def validate(checksum, alternative_checksum=None):
                 return
             if (
                 os.path.exists(target)
-                and alternative_checksum
-                and check_md5sum(target, alternative_checksum)
+                and alt_checksums
+                and any(check_md5sum(target, c) for c in alt_checksums)
             ):
+                print(
+                    "Note: Matched alternative checksum for %s. "
+                    "This indicates that small differences exist compared to "
+                    "the original version of this time series, likely due to "
+                    "rounding differences. Usually this is nothing to "
+                    "worry about." % target,
+                    file=sys.stderr,
+                )
                 return
             out = func(*args, **kwargs)
             if not os.path.exists(target):
                 raise FileNotFoundError("Target file expected at: %s" % target)
-            if not (check_md5sum(target, checksum) or (
-                alternative_checksum
-                and check_md5sum(target, alternative_checksum)
-            )):
-                raise ValidationError(target)
+            if not (
+                check_md5sum(target, checksum)
+                or (
+                    alt_checksums
+                    and any(check_md5sum(target, c) for c in alt_checksums)
+                )
+            ):
+                print(
+                    "Warning: Generated dataset %s didn't match a "
+                    "known checksum. This is likely due to "
+                    "rounding differences caused by "
+                    "different system architectures. Minor differences in "
+                    "algorithm performance can occur for this dataset. "
+                    % target,
+                    file=sys.stderr,
+                )
             return out
 
         return wrapper
@@ -85,7 +108,7 @@ def download_zip(target_path=None):
     urlretrieve(ZIP_URL, target_path)
 
 
-@validate(MD5_JSON, MD5_JSON_2)
+@validate(MD5_JSON, MD5_JSON_X)
 def write_json(zip_path, target_path=None):
     with zipfile.ZipFile(zip_path) as thezip:
         with thezip.open("psslds/zips/data/sequence6/btf/ximage.btf") as fp:
