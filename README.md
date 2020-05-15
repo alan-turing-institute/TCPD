@@ -51,8 +51,24 @@ paper](https://arxiv.org/abs/2003.06222):
 Many of the time series in the dataset are included in this repository. 
 However, due to licensing restrictions, some series can not be redistributed 
 and need to be downloaded locally. We've added a Python script and a Makefile 
-to make this process as easy as possible.
+to make this process as easy as possible. There is also a Dockerfile to 
+facilitate reproducibility.
 
+### Using Docker
+
+To build the dataset using Docker, first build the docker containers
+
+```
+$ docker build -t tcpd https://github.com/alan-turing-institute/TCPD.git
+```
+
+then build the dataset:
+
+```
+$ docker run -i -t -v /path/to/where/you/want/the/dataset:/TCPD/export tcpd
+```
+
+### Using the command line
 
 To obtain the dataset, please run the following steps:
 
