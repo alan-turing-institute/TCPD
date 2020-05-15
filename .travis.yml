@@ -1,6 +1,8 @@
 language: python
 python:
   - "3.6"
+services:
+  - docker
 
 before_install:
   - sudo apt-get update
@@ -8,11 +10,14 @@ before_install:
   - sudo apt-get install build-essential
   # install virtualenv
   - pip install -U virtualenv
+  # build docker image
+  - docker build -t tcpd https://github.com/alan-turing-institute/TCPD.git
 
 install:
   # disable the default travis install action
   - true
 
 script:
+  - docker run -i -t /tmp/docker_tcpd:/TCPD/export tcpd && ls /tmp/docker_tcpd
   - make clean
   - make test
