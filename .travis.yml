@@ -18,6 +18,6 @@ install:
   - true
 
 script:
-  - docker run -i -t /tmp/docker_tcpd:/TCPD/export tcpd && ls /tmp/docker_tcpd
+  - docker run -i -t -v /tmp/docker_tcpd:/TCPD/export tcpd && ls /tmp/docker_tcpd
   - make clean
   - make test
