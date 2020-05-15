@@ -77,6 +77,7 @@ def write_csv(target_path=None):
         end="2004-05-15",
         progress=False,
         rounding=False,
+        threads=False
     )
     aapl.round(6).to_csv(target_path, float_format="%.6f")
 
