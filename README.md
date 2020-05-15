@@ -56,7 +56,7 @@ facilitate reproducibility.
 
 ### Using Docker
 
-To build the dataset using Docker, first build the docker containers
+To build the dataset using Docker, first build the docker image:
 
 ```
 $ docker build -t tcpd https://github.com/alan-turing-institute/TCPD.git
