@@ -7,7 +7,7 @@ Welcome to the host repository of the Turing Change Point Dataset, a set of
 time series specifically collected for the evaluation of change point 
 detection algorithms on real-world data. This dataset was introduced in [this 
 paper](https://arxiv.org/abs/2003.06222). For the repository containing the 
-code and annotations, see 
+code used for the experiments, see 
 [TCPDBench](https://github.com/alan-turing-institute/TCPDBench).
 
 **Useful links:**
@@ -45,6 +45,14 @@ paper](https://arxiv.org/abs/2003.06222):
         year={2020}
 }
 ```
+
+The annotations are stored in the [annotations.json](annotations.json) file, 
+which is the same as that used in the experiments (see 
+[here](https://github.com/alan-turing-institute/TCPDBench/blob/master/analysis/annotations/annotations.json)). 
+Annotations are organised in a JSON object by dataset name and annotator id, 
+and use 0-based indexing. See the 
+[TCPDBench](https://github.com/alan-turing-institute/TCPDBench) repository for 
+more information on extending the benchmark with your own methods or datasets.
 
 ## Getting Started
 
