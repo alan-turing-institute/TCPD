@@ -19,6 +19,7 @@ code used for the experiments, see
 - [An Evaluation of Change Point Detection Algorithms](https://arxiv.org/abs/2003.06222) by 
   [Gertjan van den Burg](https://gertjan.dev) and [Chris 
   Williams](https://homepages.inf.ed.ac.uk/ckiw/).
+- [Annotation Tool](https://github.com/alan-turing-institute/annotatechange)
 
 ## Introduction
 
