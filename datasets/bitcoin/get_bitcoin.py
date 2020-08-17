@@ -13,13 +13,16 @@ Copyright: 2019, The Alan Turing Institute
 """
 
 import argparse
+import clevercsv
 import hashlib
 import json
 import os
-import clevercsv
+import sys
+import time
 
 from functools import wraps
 from urllib.request import urlretrieve
+from urllib.error import URLError
 
 CSV_URL = "https://web.archive.org/web/20191114131838if_/https://api.blockchain.info/charts/market-price?timespan=all&format=csv"
 
@@ -70,7 +73,19 @@ def validate(checksum):
 
 @validate(MD5_CSV)
 def get_market_price(target_path=None):
-    urlretrieve(CSV_URL, target_path)
+    count = 0
+    while count < 5:
+        count += 1
+        try:
+            urlretrieve(CSV_URL, target_path)
+            return
+        except URLError as err:
+            print(
+                "Error occurred (%r) when trying to download csv. Retrying in 5 seconds"
+                % err,
+                sys.stderr,
+            )
+            time.sleep(5)
 
 
 @validate(MD5_JSON)

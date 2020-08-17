@@ -19,9 +19,11 @@ import math
 import os
 import zipfile
 import sys
+import time
 
 from functools import wraps
 from urllib.request import urlretrieve
+from urllib.error import URLError
 
 ZIP_URL = "https://web.archive.org/web/20191114130815if_/https://www.cc.gatech.edu/%7Eborg/ijcv_psslds/psslds.zip"
 
@@ -105,7 +107,19 @@ def validate(checksum, alt_checksums=None):
 
 @validate(MD5_ZIP)
 def download_zip(target_path=None):
-    urlretrieve(ZIP_URL, target_path)
+    count = 0
+    while count < 5:
+        count += 1
+        try:
+            urlretrieve(ZIP_URL, target_path)
+            return
+        except URLError as err:
+            print(
+                "Error occurred (%r) when trying to download zip. Retrying in 5 seconds"
+                % err,
+                sys.stderr,
+            )
+            time.sleep(5)
 
 
 @validate(MD5_JSON, MD5_JSON_X)

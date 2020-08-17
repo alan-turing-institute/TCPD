@@ -21,8 +21,11 @@ import hashlib
 import json
 import os
 import yfinance
+import sys
+import time
 
 from functools import wraps
+from urllib.error import URLError
 
 MD5_CSV = "9021c03bb9fea3f16ecc812d77926168"
 MD5_JSON = "22edb48471bd3711f7a6e15de6413643"
@@ -71,15 +74,27 @@ def validate(checksum):
 
 
 def write_csv(target_path=None):
-    aapl = yfinance.download(
-        "AAPL",
-        start="1996-12-12",
-        end="2004-05-15",
-        progress=False,
-        rounding=False,
-        threads=False
-    )
-    aapl.round(6).to_csv(target_path, float_format="%.6f")
+    count = 0
+    while count < 5:
+        count += 1
+        try:
+            aapl = yfinance.download(
+                "AAPL",
+                start="1996-12-12",
+                end="2004-05-15",
+                progress=False,
+                rounding=False,
+                threads=False,
+            )
+            aapl.round(6).to_csv(target_path, float_format="%.6f")
+            return
+        except URLError as err:
+            print(
+                "Error occurred (%r) when trying to download csv. Retrying in 5 seconds"
+                % err,
+                sys.stderr,
+            )
+            time.sleep(5)
 
 
 @validate(MD5_JSON)
