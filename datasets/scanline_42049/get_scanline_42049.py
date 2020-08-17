@@ -17,10 +17,13 @@ import hashlib
 import os
 import numpy as np
 import json
+import sys
+import time
 
 from PIL import Image
 from functools import wraps
 from urllib.request import urlretrieve
+from urllib.error import URLError
 
 IMG_URL = "https://web.archive.org/web/20070611230044im_/http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/segbench/BSDS300/html/images/plain/normal/gray/42049.jpg"
 
@@ -70,7 +73,19 @@ def validate(checksum):
 
 @validate(MD5_IMG)
 def download_img(target_path=None):
-    urlretrieve(IMG_URL, target_path)
+    count = 0
+    while count < 5:
+        count += 1
+        try:
+            urlretrieve(IMG_URL, target_path)
+            return
+        except URLError as err:
+            print(
+                "Error occurred (%r) when trying to download img. Retrying in 5 seconds"
+                % err,
+                sys.stderr,
+            )
+            time.sleep(5)
 
 
 @validate(MD5_JSON)

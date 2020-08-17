@@ -17,9 +17,12 @@ import hashlib
 import json
 import os
 import xlrd
+import sys
+import time
 
 from functools import wraps
 from urllib.request import urlretrieve
+from urllib.error import URLError
 
 XLSX_URL = "https://web.archive.org/web/20191121170223if_/https://www.ferdamalastofa.is/static/files/ferdamalastofa/Frettamyndir/2019/nov/visitors-to-iceland-2002-2019-oct.xlsx"
 
@@ -84,7 +87,20 @@ def validate(checksum):
 
 @validate(MD5_XLSX)
 def download_xlsx(target_path=None):
-    urlretrieve(XLSX_URL, target_path)
+    count = 0
+    while count < 5:
+        count += 1
+        try:
+            urlretrieve(XLSX_URL, target_path)
+            return
+        except URLError as err:
+            print(
+                "Error occurred (%r) when trying to download xlsx. Retrying in 5 seconds"
+                % err,
+                sys.stderr,
+            )
+            time.sleep(5)
+
 
 
 def format_ym(year, month):

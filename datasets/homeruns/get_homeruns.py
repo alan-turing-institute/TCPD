@@ -17,9 +17,12 @@ import clevercsv
 import hashlib
 import json
 import os
+import sys
+import time
 
 from functools import wraps
 from urllib.request import urlretrieve
+from urllib.error import URLError
 
 # Original source of the batting csv file
 CSV_URL = "https://web.archive.org/web/20191128150525if_/https://raw.githubusercontent.com/chadwickbureau/baseballdatabank/242285f8f5e8981327cf50c07355fb034833ce4a/core/Batting.csv"
@@ -70,7 +73,19 @@ def validate(checksum):
 
 @validate(MD5_CSV)
 def download_csv(target_path=None):
-    urlretrieve(CSV_URL, target_path)
+    count = 0
+    while count < 5:
+        count += 1
+        try:
+            urlretrieve(CSV_URL, target_path)
+            return
+        except URLError as err:
+            print(
+                "Error occurred (%r) when trying to download csv. Retrying in 5 seconds"
+                % err,
+                sys.stderr,
+            )
+            time.sleep(5)
 
 
 def read_csv(csv_file):

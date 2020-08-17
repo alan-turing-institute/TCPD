@@ -17,9 +17,12 @@ import clevercsv
 import hashlib
 import json
 import os
+import sys
+import time
 
 from functools import wraps
 from urllib.request import urlretrieve
+from urllib.error import URLError
 
 DAT_URL = "https://web.archive.org/web/20191128124615if_/https://ms.mcmaster.ca/~bolker/measdata/ewmeas.dat"
 
@@ -70,7 +73,20 @@ def validate(checksum):
 
 @validate(MD5_DAT)
 def download_zip(target_path=None):
-    urlretrieve(DAT_URL, target_path)
+    count = 0
+    while count < 5:
+        count += 1
+        try:
+            urlretrieve(DAT_URL, target_path)
+            return
+        except URLError as err:
+            print(
+                "Error occurred (%r) when trying to download zip. Retrying in 5 seconds"
+                % err,
+                sys.stderr,
+            )
+            time.sleep(5)
+
 
 
 @validate(MD5_JSON)
