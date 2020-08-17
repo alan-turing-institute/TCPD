@@ -75,7 +75,7 @@ def get_market_price(target_path=None):
 
 @validate(MD5_JSON)
 def write_json(csv_path, target_path=None):
-    rows = clevercsv.read_csv(csv_path)
+    rows = clevercsv.read_table(csv_path)
 
     rows = rows[500:]
     last_idx = next(
