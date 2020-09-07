@@ -86,6 +86,18 @@ def write_csv(target_path=None):
                 rounding=False,
                 threads=False,
             )
+            # Somewhere between 2020-08-26 and 2020-09-07 an API change
+            # happened (I guess) that changed these prices and the volume by a
+            # factor of 4. Long term this is a fragile solution, but for now
+            # this condition ensures that the correct file is generated.
+            if 0.2131696 <= aapl["Close"][0] <= 0.2131697:
+                aapl["Open"] = aapl["Open"] * 4
+                aapl["High"] = aapl["High"] * 4
+                aapl["Low"] = aapl["Low"] * 4
+                aapl["Close"] = aapl["Close"] * 4
+                # Adj Close doesn't adhere to factor 4
+                aapl["Volume"] = aapl["Volume"] // 4
+
             aapl.round(6).to_csv(target_path, float_format="%.6f")
             return
         except URLError as err:
