@@ -86,10 +86,12 @@ def write_csv(target_path=None):
                 rounding=False,
                 threads=False,
             )
-            # Somewhere between 2020-08-26 and 2020-09-07 an API change
-            # happened (I guess) that changed these prices and the volume by a
-            # factor of 4. Long term this is a fragile solution, but for now
-            # this condition ensures that the correct file is generated.
+            # On 2020-08-28 Apple had a 4-for-1 stock split, and this changed 
+            # the historical prices and volumes in the Yahoo API by a factor of 
+            # 4. Since the original dataset was constructed before this time, 
+            # we correct this change here by using a hard-coded closing price.  
+            # This ensures that the resulting dataset has the same values as 
+            # used in the TCPDBench paper. 
             if 0.2131696 <= aapl["Close"][0] <= 0.2131697:
                 aapl["Open"] = aapl["Open"] * 4
                 aapl["High"] = aapl["High"] * 4
