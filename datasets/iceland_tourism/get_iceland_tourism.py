@@ -15,8 +15,8 @@ Copyright: 2019, The Alan Turing Institute
 import argparse
 import hashlib
 import json
+import openpyxl
 import os
-import xlrd
 import sys
 import time
 
@@ -102,7 +102,6 @@ def download_xlsx(target_path=None):
             time.sleep(5)
 
 
-
 def format_ym(year, month):
     midx = MONTHS[month]
     return "%i-%02d" % (int(year), midx)
@@ -110,27 +109,30 @@ def format_ym(year, month):
 
 @validate(MD5_JSON)
 def write_json(xlsx_path, target_path=None):
-    wb = xlrd.open_workbook(xlsx_path)
-    ws = wb.sheet_by_index(2)
+    wb = openpyxl.load_workbook(xlsx_path)
+    ws = wb.worksheets[2]
+
+    rows = list(ws.rows)
 
     # hardcoding these row indices, not worth doing it nicely
-    header = ws.row(2)
+    header = rows[2]
+
     column_idx = [
         i
         for i, c in enumerate(header)
-        if c.ctype == xlrd.XL_CELL_NUMBER and 2003 <= c.value < 2020
+        if c.data_type == "n" and c.value and 2003 <= c.value < 2020
     ]
 
     visitors = []
 
-    r_offset = 3
+    r_offset = 4
     for c in column_idx:
         for r in range(r_offset, r_offset + 12):
-            cell = ws.cell(r, c)
-            if cell.ctype == xlrd.XL_CELL_EMPTY:
+            cell = ws.cell(r, c + 1)
+            if cell.value is None or str(cell.value) == "":
                 continue
             year = header[c].value
-            month = ws.cell(r, 0).value
+            month = ws.cell(r, 1).value
             datestr = format_ym(year, month)
             # eliminate some observations that were not in the original dataset
             if datestr in ["2019-08", "2019-09", "2019-10"]:
