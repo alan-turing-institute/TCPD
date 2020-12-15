@@ -69,6 +69,5 @@ venv: $(VENV_DIR)/bin/activate
 
 $(VENV_DIR)/bin/activate:
 	test -d $(VENV_DIR) || python -m venv $(VENV_DIR)
-	source $(VENV_DIR)/bin/activate && pip install \
-		--use-feature=2020-resolver -r ./requirements.txt
+	source $(VENV_DIR)/bin/activate && pip install -r ./requirements.txt
 	touch $(VENV_DIR)/bin/activate
