@@ -73,33 +73,51 @@ def validate(checksum):
     return validate_decorator
 
 
+def get_aapl():
+    """ Get the aapl data frame from yfinance """
+    date_start = "1996-12-12"
+    date_end = "2004-05-14"
+
+    # We use an offset here to catch potential off-by-one errors in yfinance.
+    date_start_off = "1996-12-10"
+    date_end_off = "2004-05-17"
+
+    aapl = yfinance.download(
+        "AAPL",
+        start=date_start_off,
+        end=date_end_off,
+        progress=False,
+        rounding=False,
+        threads=False,
+    )
+
+    # Get the actual date range we want
+    aapl = aapl[date_start:date_end]
+    aapl = aapl.copy()
+
+    # On 2020-08-28 Apple had a 4-for-1 stock split, and this changed
+    # the historical prices and volumes in the Yahoo API by a factor of
+    # 4. Since the original dataset was constructed before this time,
+    # we correct this change here by using a hard-coded closing price.
+    # This ensures that the resulting dataset has the same values as
+    # used in the TCPDBench paper.
+    if 0.2131696 <= aapl["Close"][0] <= 0.2131697:
+        aapl["Open"] = aapl["Open"] * 4
+        aapl["High"] = aapl["High"] * 4
+        aapl["Low"] = aapl["Low"] * 4
+        aapl["Close"] = aapl["Close"] * 4
+        # Adj Close doesn't adhere to factor 4
+        aapl["Volume"] = aapl["Volume"] // 4
+
+    return aapl
+
+
 def write_csv(target_path=None):
     count = 0
     while count < 5:
         count += 1
         try:
-            aapl = yfinance.download(
-                "AAPL",
-                start="1996-12-12",
-                end="2004-05-15",
-                progress=False,
-                rounding=False,
-                threads=False,
-            )
-            # On 2020-08-28 Apple had a 4-for-1 stock split, and this changed 
-            # the historical prices and volumes in the Yahoo API by a factor of 
-            # 4. Since the original dataset was constructed before this time, 
-            # we correct this change here by using a hard-coded closing price.  
-            # This ensures that the resulting dataset has the same values as 
-            # used in the TCPDBench paper. 
-            if 0.2131696 <= aapl["Close"][0] <= 0.2131697:
-                aapl["Open"] = aapl["Open"] * 4
-                aapl["High"] = aapl["High"] * 4
-                aapl["Low"] = aapl["Low"] * 4
-                aapl["Close"] = aapl["Close"] * 4
-                # Adj Close doesn't adhere to factor 4
-                aapl["Volume"] = aapl["Volume"] // 4
-
+            aapl = get_aapl()
             aapl.round(6).to_csv(target_path, float_format="%.6f")
             return
         except URLError as err:
