@@ -1,5 +1,7 @@
 name: Validate TCPD (docker)
 
+on: push
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
