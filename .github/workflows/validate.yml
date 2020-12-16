@@ -29,5 +29,6 @@ jobs:
         shell: bash
 
   tcpd-docker:
-    - uses: 'docker'
+    runs:
+      using: 'docker'
       image: 'Dockerfile'
