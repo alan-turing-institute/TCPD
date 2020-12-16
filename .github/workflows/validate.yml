@@ -10,13 +10,16 @@ jobs:
     steps:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install build-essential
+        shell: bash
 
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Ensure clean
         run: make clean
+        shell: bash
 
       - name: Build and verify
         run: make test
+        shell: bash
 
