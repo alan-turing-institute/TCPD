@@ -1,4 +1,4 @@
-name: Validate TCPD
+name: Validate TCPD (direct)
 
 on: push
 
@@ -27,8 +27,3 @@ jobs:
       - name: Build and verify
         run: make test
         shell: bash
-
-  tcpd-docker:
-    runs:
-      using: 'docker'
-      image: 'Dockerfile'

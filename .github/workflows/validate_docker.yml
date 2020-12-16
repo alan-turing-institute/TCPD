@@ -1,0 +1,5 @@
+name: Validate TCPD (docker)
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
