@@ -8,7 +8,7 @@ RUN apt-get update && \
 	    build-essential \
 	    python3 \
 	    python3-dev \
-	    python3-pip && \
+	    python3-pip \
 	    python3-venv && \
 	    echo "alias python='python3'" >> /root/.bash_aliases && \
 	    echo "alias pip='pip3'" >> /root/.bash_aliases && \
