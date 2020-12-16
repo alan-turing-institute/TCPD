@@ -27,3 +27,13 @@ jobs:
       - name: Build and verify
         run: make test
         shell: bash
+
+  tcpd-docker:
+    runs-on: ubuntu-latest
+    name: validate tcpd in docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: TCPD docker check
+        uses: ./.github/workflows/
