@@ -28,3 +28,6 @@ jobs:
         run: make test
         shell: bash
 
+  tcpd-docker:
+    - uses: 'docker'
+      image: 'Dockerfile'
