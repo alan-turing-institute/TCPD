@@ -1,0 +1,5 @@
+name: 'TCPD Docker'
+description: 'Runs the TCPD build script in a Docker container'
+runs:
+  using: 'docker'
+  image: '../../Dockerfile'
