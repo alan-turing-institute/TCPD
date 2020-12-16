@@ -1,10 +1,10 @@
-name: Validate TCPD (direct)
+name: Validate TCPD
 
 on: push
 
 jobs:
   tcpd-ubuntu:
-    name: check TCPD
+    name: check TCPD (direct)
     runs-on: ubuntu-latest
 
     steps:
@@ -29,8 +29,9 @@ jobs:
         shell: bash
 
   tcpd-docker:
+    name: check TCPD (docker)
     runs-on: ubuntu-latest
-    name: validate tcpd in docker
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
