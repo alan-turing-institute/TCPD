@@ -11,4 +11,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: TCPD docker check
-        uses: ./.github/workflows/action
+        uses: ./.github/workflows/
