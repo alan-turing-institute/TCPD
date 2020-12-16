@@ -9,7 +9,8 @@ RUN apt-get update && \
 	    python3 \
 	    python3-dev \
 	    python3-pip \
-	    python3-venv && \
+	    python3-venv \
+	    python3-wheel && \
 	    echo "alias python='python3'" >> /root/.bash_aliases && \
 	    echo "alias pip='pip3'" >> /root/.bash_aliases && \
 	    cd /usr/local/bin && ln -s /usr/bin/python3 python && \
