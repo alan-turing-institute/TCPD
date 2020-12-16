@@ -9,11 +9,11 @@ RUN apt-get update && \
 	    python3 \
 	    python3-dev \
 	    python3-pip && \
+	    python3-venv && \
 	    echo "alias python='python3'" >> /root/.bash_aliases && \
 	    echo "alias pip='pip3'" >> /root/.bash_aliases && \
 	    cd /usr/local/bin && ln -s /usr/bin/python3 python && \
-	    cd /usr/local/bin && ln -s /usr/bin/pip3 pip && \
-	    pip install virtualenv
+	    cd /usr/local/bin && ln -s /usr/bin/pip3 pip
 
 # Make bash the default shell
 RUN mv /bin/sh /bin/sh.old && cp /bin/bash /bin/sh
