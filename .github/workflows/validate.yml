@@ -1,0 +1,22 @@
+name: Validate TCPD
+
+on: push
+
+jobs:
+  tcpd-ubuntu:
+    name: check TCPD
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install build-essential
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Ensure clean
+        run: make clean
+
+      - name: Build and verify
+        run: make test
+
