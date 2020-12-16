@@ -1,6 +1,6 @@
 # Turing Change Point Dataset
 
-[![Build Status](https://travis-ci.org/alan-turing-institute/TCPD.svg?branch=master)](https://travis-ci.org/alan-turing-institute/TCPD)
+[![Build Status](https://github.com/alan-turing-institute/TCPD/workflows/Validate%20TCPD/badge.svg)](https://github.com/alan-turing-institute/TCPD/actions?query=workflow%3A%22Validate+TCPD%22)
 [![DOI](https://zenodo.org/badge/224688676.svg)](https://zenodo.org/badge/latestdoi/224688676)
 
 Welcome to the host repository of the Turing Change Point Dataset, a set of 
