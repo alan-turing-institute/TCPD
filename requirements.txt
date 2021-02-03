@@ -6,3 +6,4 @@ requests>=2.22.0
 yfinance>=0.1.45
 jsonschema>=3.2.0
 openpyxl
+diff-match-patch

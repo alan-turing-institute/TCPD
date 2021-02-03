@@ -135,12 +135,39 @@ def write_json(csv_path, target_path=None):
         json.dump(data, fp, indent="\t")
 
 
+@validate(MD5_JSON)
+def write_patch(source_path, target_path=None):
+    # This patches rounding differences that started to occur around Feb 2021.
+    from lzma import decompress
+    from base64 import b85decode
+    from diff_match_patch import diff_match_patch
+
+    dmp = diff_match_patch()
+    diff = decompress(b85decode(BLOB)).decode("utf-8")
+
+    with open(source_path, "r") as fp:
+        new_json = fp.read()
+
+    patches = dmp.patch_fromText(diff)
+    patched, _ = dmp.patch_apply(patches, new_json)
+    with open(target_path, "w") as fp:
+        fp.write(patched)
+
+
 def collect(output_dir="."):
     csv_path = os.path.join(output_dir, NAME_CSV)
     json_path = os.path.join(output_dir, NAME_JSON)
 
     write_csv(target_path=csv_path)
-    write_json(csv_path, target_path=json_path)
+
+    try:
+        write_json(csv_path, target_path=json_path)
+        need_patch = False
+    except ValidationError:
+        need_patch = True
+
+    if need_patch:
+        write_patch(json_path, target_path=json_path)
 
 
 def clean(output_dir="."):
@@ -175,6 +202,13 @@ def main(output_dir="."):
     elif args.action == "clean":
         clean(output_dir=args.output_dir)
 
+
+BLOB = (
+    b"{Wp48S^xk9=GL@E0stWa8~^|S5YJf5-~z({om~JRV0>CMK>=)+?;9Q77%VlSe-n@RwTxDTAq"
+    b"Xux?siO{U6G@C3FaW~bN5Z*_f_oBtk6v71E|?<5o1eA9Ph0ws)8e&C5nX<N?S7g`v*e-B4M$"
+    b"xsUK<=t_0!jQw0{TE0!b-V#yoVUWo}I#>y<%CaK|DwqCb~NKalm6OSmI1f8nAh0~Q%o~@<b>"
+    b"vQLj7z)h-uL{Tu*hvOp00000nukx=XK5Ee00FrH#03BVY6KKKvBYQl0ssI200dcD"
+)
 
 if __name__ == "__main__":
     main()
