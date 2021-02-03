@@ -202,6 +202,7 @@ def collect(output_dir="."):
     write_csv(target_path=csv_path)
     try:
         write_json(csv_path, target_path=json_path)
+        need_patch = False
     except ValidationError:
         need_patch = True
 
