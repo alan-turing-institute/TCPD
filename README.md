@@ -144,7 +144,34 @@ languages:
 
 Implementations of various change point detection algorithms that use these 
 datasets are available in 
-[TCPDBench](https://github.com/alan-turing-institute/TCPDBench).
+[TCPDBench](https://github.com/alan-turing-institute/TCPDBench). A script to 
+plot the datasets and detection results from 
+[TCPDBench](https://github.com/alan-turing-institute/TCPDBench) is also 
+provided in [utils/plot_dataset.py](tree/master/utils/plot_dataset.py).
+
+The annotations are included in the 
+[annotations.json](tree/master/annotations.json) file. They are in the format:
+
+```
+{
+  "<dataset>": {
+      "annotator_id": [
+          <change point index>
+          <change point index>
+          ...
+          ],
+      ...
+  },
+  ...
+}
+```
+
+where the ``annotator_id`` is a unique ID for the annotator and the change 
+point indices are 
+[0-based](https://en.wikipedia.org/wiki/Zero-based_numbering). Please also see 
+the documentation in 
+[TCPDBench](https://github.com/alan-turing-institute/TCPDBench) for more 
+information about using the dataset and benchmark in your own work.
 
 ## License
 
