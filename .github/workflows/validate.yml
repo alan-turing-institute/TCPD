@@ -1,10 +1,10 @@
-name: Validate TCPD
+name: Check TCPD
 
 on:
   push:
   pull_request:
   schedule:
-    - cron: 16 17 * * */10
+    - cron: 16 17 */10 * *
 
 jobs:
   tcpd-ubuntu:
