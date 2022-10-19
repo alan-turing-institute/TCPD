@@ -82,6 +82,7 @@ def write_csv(target_path=None):
                 progress=False,
                 rounding=False,
             )
+            sig.index = sig.index.tz_localize(None)
             sig.round(6).to_csv(target_path, float_format="%.6f")
             return
         except URLError as err:

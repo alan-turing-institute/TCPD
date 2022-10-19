@@ -95,6 +95,9 @@ def get_aapl():
     aapl = aapl[date_start:date_end]
     aapl = aapl.copy()
 
+    # Drop the timezone information
+    aapl.index = aapl.index.tz_localize(None)
+
     # On 2020-08-28 Apple had a 4-for-1 stock split, and this changed
     # the historical prices and volumes in the Yahoo API by a factor of
     # 4. Since the original dataset was constructed before this time,
