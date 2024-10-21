@@ -92,7 +92,7 @@ def get_aapl():
     )
 
     # Get the actual date range we want
-    aapl = aapl[date_start:date_end]
+    aapl = aapl.loc[date_start:date_end]
     aapl = aapl.copy()
 
     # Drop the timezone information
@@ -104,8 +104,8 @@ def get_aapl():
     # we correct this change here by using a hard-coded closing price.
     # This ensures that the resulting dataset has the same values as
     # used in the TCPDBench paper.
-    if (0.2131696 <= aapl["Close"][0] <= 0.2131697) or (
-        0.21317000 <= aapl["Close"][0] <= 0.21317001
+    if (0.2131696 <= aapl["Close"].values[0, 0] <= 0.2131697) or (
+        0.21317000 <= aapl["Close"].values[0, 0] <= 0.21317001
     ):
         aapl["Open"] = aapl["Open"] * 4
         aapl["High"] = aapl["High"] * 4
@@ -113,6 +113,9 @@ def get_aapl():
         aapl["Close"] = aapl["Close"] * 4
         # Adj Close doesn't adhere to factor 4
         aapl["Volume"] = aapl["Volume"] // 4
+
+    if aapl.columns.nlevels > 1:
+        aapl.columns = aapl.columns.droplevel(1)
 
     return aapl
 
