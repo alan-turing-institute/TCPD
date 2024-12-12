@@ -83,6 +83,10 @@ def write_csv(target_path=None):
                 rounding=False,
             )
             sig.index = sig.index.tz_localize(None)
+
+            if sig.columns.nlevels > 1:
+                sig.columns = sig.columns.droplevel(1)
+
             sig.round(6).to_csv(target_path, float_format="%.6f")
             return
         except URLError as err:
@@ -103,6 +107,7 @@ def write_json(csv_path, target_path=None):
         rows = list(reader)
 
     header = rows.pop(0)
+    close_idx = header.index("Close")
 
     rows = [r for i, r in enumerate(rows) if i % SAMPLE == 0]
 
@@ -114,7 +119,10 @@ def write_json(csv_path, target_path=None):
     time = [r[0] for r in rows]
     time_fmt = "%Y-%m-%d"
 
-    values = [None if r[4].strip() == "" else float(r[4]) for r in rows]
+    values = [
+        None if r[close_idx].strip() == "" else float(r[close_idx])
+        for r in rows
+    ]
 
     series = [{"label": "Close Price", "type": "float", "raw": values}]
 
