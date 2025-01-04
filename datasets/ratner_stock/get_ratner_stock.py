@@ -81,6 +81,7 @@ def write_csv(target_path=None):
                 end="1995-08-23",
                 progress=False,
                 rounding=False,
+                auto_adjust=False,
             )
             sig.index = sig.index.tz_localize(None)
 
