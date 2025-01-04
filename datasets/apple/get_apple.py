@@ -89,6 +89,7 @@ def get_aapl():
         progress=False,
         rounding=False,
         threads=False,
+        auto_adjust=False,
     )
 
     # Get the actual date range we want
