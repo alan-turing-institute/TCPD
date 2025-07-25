@@ -20,13 +20,13 @@ jobs:
         run: sudo apt-get update && sudo apt-get install build-essential
         shell: bash
 
-      - name: Install Python 3.8
-        uses: actions/setup-python@v2
+      - name: Install Python 3.12
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.8'
+          python-version: '3.12'
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Ensure clean
         run: make clean
@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: TCPD docker check
         uses: ./.github/workflows/

@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 # Install necessary packages and ensure python means python3
 RUN apt-get update && \
